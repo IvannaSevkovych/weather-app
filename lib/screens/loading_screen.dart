@@ -45,22 +45,20 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    // return await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition();
+    print('Latitude: ${position.latitude}');
+    print('Longitude: ${position.longitude}');
+    return position;
   }
 
   @override
+  void initState() {
+    super.initState();
+    _determinePosition();
+  }
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            Position position = await _determinePosition();
-            print('Latitude: ${position.latitude}');
-            print('Longitude: ${position.longitude}');
-          },
-          child: Text('Get Location'),
-        ),
-      ),
-    );
+    return Scaffold();
   }
 }

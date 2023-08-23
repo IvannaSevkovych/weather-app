@@ -3,20 +3,12 @@ import 'package:weather_app/services/networking.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WeatherModel {
-  String _apiKey = '';
   static const openWeatherMapURL =
       'https://api.openweathermap.org/data/2.5/weather';
 
-  WeatherModel() {
-    loadApiKey();
-  }
-
-  Future<void> loadApiKey() async {
-    await dotenv.load(fileName: ".env");
-    _apiKey = dotenv.env['API_KEY'] ?? 'default_api_key';
-  }
-
   Future<Map<String, dynamic>> getLocationWeather() async {
+    await dotenv.load(fileName: ".env");
+
     String apiKey = dotenv.env['API_KEY'] ?? 'default_api_key';
 
     Location location = Location();

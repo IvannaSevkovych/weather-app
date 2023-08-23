@@ -17,7 +17,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Future<void> loadData() async {
     WeatherModel weatherModel = WeatherModel();
-    await weatherModel.loadApiKey();
 
     var weatherData = await weatherModel.getLocationWeather();
     Navigator.push(context, MaterialPageRoute(builder: (context) {

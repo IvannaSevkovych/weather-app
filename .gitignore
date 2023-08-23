@@ -71,3 +71,18 @@
 
 .env
 .flutter-plugins-dependencies
+
+# Ignore generated Android build files
+android/app/build/
+android/gradle.properties
+android/local.properties
+android/gradle/
+android/.gradle/
+
+# Flutter/Dart specific
+pubspec.lock
+
+# iOS specific
+ios/Pods/
+ios/Podfile.lock
+ios/Runner.xcworkspace/

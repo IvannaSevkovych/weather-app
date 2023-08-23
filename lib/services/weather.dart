@@ -1,4 +1,38 @@
+import 'package:weather_app/services/location.dart';
+import 'package:weather_app/services/networking.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class WeatherModel {
+  String _apiKey = '';
+  static const openWeatherMapURL =
+      'https://api.openweathermap.org/data/2.5/weather';
+
+  WeatherModel() {
+    loadApiKey();
+  }
+
+  Future<void> loadApiKey() async {
+    await dotenv.load(fileName: ".env");
+    _apiKey = dotenv.env['API_KEY'] ?? 'default_api_key';
+  }
+
+  Future<Map<String, dynamic>> getLocationWeather() async {
+    String apiKey = dotenv.env['API_KEY'] ?? 'default_api_key';
+
+    Location location = Location();
+
+    await location.getCurrentLocation();
+
+    if (apiKey != 'default_api_key') {
+      NetworkHelper networkHelper = NetworkHelper(
+          '$openWeatherMapURL?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric&units=metric');
+      return await networkHelper.getData();
+    } else {
+      print('API key not found in environment variables.');
+      return {};
+    }
+  }
+
   String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';

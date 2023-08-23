@@ -11,21 +11,16 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  double latitude = 0.0;
-  double longitude = 0.0;
-
   Future<Map<String, dynamic>> getLocationData() async {
     String apiKey = dotenv.env['API_KEY'] ?? 'default_api_key';
 
     Location location = Location();
 
     await location.getCurrentLocation();
-    latitude = location.latitude;
-    longitude = location.longitude;
 
     if (apiKey != 'default_api_key') {
       NetworkHelper networkHelper = NetworkHelper(
-          'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric&units=metric');
+          'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric&units=metric');
       return await networkHelper.getData();
     } else {
       print('API key not found in environment variables.');

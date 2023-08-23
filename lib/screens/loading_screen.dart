@@ -3,6 +3,7 @@ import 'package:weather_app/screens/location_screen.dart';
 import 'package:weather_app/services/location.dart';
 import 'package:weather_app/services/networking.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -47,6 +48,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+          child: SpinKitDoubleBounce(
+        color: Colors.white,
+        size: 100.0,
+      )),
+    );
   }
 }

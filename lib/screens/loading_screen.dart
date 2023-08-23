@@ -14,7 +14,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   double latitude = 0.0;
   double longitude = 0.0;
 
-  Future<void> getLocationData() async {
+  Future<Map<String, dynamic>> getLocationData() async {
     String apiKey = dotenv.env['API_KEY'] ?? 'default_api_key';
 
     Location location = Location();
@@ -25,14 +25,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     if (apiKey != 'default_api_key') {
       NetworkHelper networkHelper = NetworkHelper(
-          'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric');
-      var weatherData = await networkHelper.getData();
-
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return LocationScreen();
-      }));
+          'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric&units=metric');
+      return await networkHelper.getData();
     } else {
       print('API key not found in environment variables.');
+      return {};
     }
   }
 
@@ -44,7 +41,12 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Future<void> loadData() async {
     await dotenv.load(fileName: ".env");
-    await getLocationData();
+    var weatherData = await getLocationData();
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return LocationScreen(
+        locationWeather: weatherData,
+      );
+    }));
   }
 
   Widget build(BuildContext context) {

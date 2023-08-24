@@ -68,6 +68,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       var weatherData = await weather.getLocationWeather();
                       updateUI(weatherData);
                     },
+                    style: getTransparentButtonStyle(),
                     child: Icon(
                       Icons.near_me,
                       size: 50.0,
@@ -88,6 +89,7 @@ class _LocationScreenState extends State<LocationScreen> {
                       }
                       ;
                     },
+                    style: getTransparentButtonStyle(),
                     child: Icon(
                       Icons.location_city,
                       size: 50.0,

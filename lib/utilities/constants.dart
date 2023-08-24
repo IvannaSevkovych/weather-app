@@ -35,3 +35,10 @@ const kTextFieldInputDecoration = InputDecoration(
     borderSide: BorderSide.none,
   ),
 );
+
+ButtonStyle getTransparentButtonStyle() {
+  return ElevatedButton.styleFrom(
+    backgroundColor: Colors.transparent,
+    // Other styling properties like textStyle, padding, shape, etc.
+  );
+}

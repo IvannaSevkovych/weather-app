@@ -6,10 +6,14 @@ class WeatherModel {
   static const openWeatherMapURL =
       'https://api.openweathermap.org/data/2.5/weather';
 
-  Future<Map<String, dynamic>> getCityWeather(String cityName) async {
+  Future<String> getApiKey() async {
     await dotenv.load(fileName: ".env");
-
     String apiKey = dotenv.env['API_KEY'] ?? 'default_api_key';
+    return apiKey;
+  }
+
+  Future<Map<String, dynamic>> getCityWeather(String cityName) async {
+    var apiKey = await getApiKey();
 
     if (apiKey != 'default_api_key') {
       NetworkHelper networkHelper = NetworkHelper(
@@ -22,12 +26,9 @@ class WeatherModel {
   }
 
   Future<Map<String, dynamic>> getLocationWeather() async {
-    await dotenv.load(fileName: ".env");
-
-    String apiKey = dotenv.env['API_KEY'] ?? 'default_api_key';
+    var apiKey = await getApiKey();
 
     Location location = Location();
-
     await location.getCurrentLocation();
 
     if (apiKey != 'default_api_key') {

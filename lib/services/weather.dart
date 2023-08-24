@@ -12,17 +12,21 @@ class WeatherModel {
     return apiKey;
   }
 
-  Future<Map<String, dynamic>> getCityWeather(String cityName) async {
-    var apiKey = await getApiKey();
-
+  Future<Map<String, dynamic>> getWeatherData(url, apiKey) async {
     if (apiKey != 'default_api_key') {
-      NetworkHelper networkHelper = NetworkHelper(
-          '$openWeatherMapURL?q=$cityName&appid=$apiKey&units=metric');
+      NetworkHelper networkHelper = NetworkHelper(url);
       return await networkHelper.getData();
     } else {
       print('API key not found in environment variables.');
       return {};
     }
+  }
+
+  Future<Map<String, dynamic>> getCityWeather(String cityName) async {
+    var apiKey = await getApiKey();
+
+    var url = '$openWeatherMapURL?q=$cityName&appid=$apiKey&units=metric';
+    return await getWeatherData(url, apiKey);
   }
 
   Future<Map<String, dynamic>> getLocationWeather() async {
@@ -31,14 +35,9 @@ class WeatherModel {
     Location location = Location();
     await location.getCurrentLocation();
 
-    if (apiKey != 'default_api_key') {
-      NetworkHelper networkHelper = NetworkHelper(
-          '$openWeatherMapURL?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric&units=metric');
-      return await networkHelper.getData();
-    } else {
-      print('API key not found in environment variables.');
-      return {};
-    }
+    var url =
+        '$openWeatherMapURL?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric&units=metric';
+    return await getWeatherData(url, apiKey);
   }
 
   String getWeatherIcon(int condition) {
